@@ -11,10 +11,10 @@ Which one you want to read ?
 
 if Newspaper == '1':
 	newspaper_url = "http://www.thehindu.com/"
-
+	
 elif Newspaper == '2':
 	newspaper_url = "http://indianexpress.com/"
-
+	
 elif Newspaper == '3':
 	newspaper_url = "http://www.deccanchronicle.com/"
 
@@ -24,4 +24,8 @@ elif Newspaper == '4':
 else:
 	print "Make suer you've entered the right number"
 
-                       
+
+def url_opener(url):
+	requester = urllib2.Request(url, headers={'User-Agent': "Magic Browser"}
+	connector = urllib2.urlopen(requester)
+	connector_reader = connector.read()                       
