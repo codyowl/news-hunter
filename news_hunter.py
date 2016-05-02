@@ -17,15 +17,24 @@ if Newspaper == '1':
 	soup = BeautifulSoup(connector_reader, "lxml")
 
 	Headlines_div = soup.findAll("div", {"class" : "h-main-lead posRel"})
+	
+	PICKUP_HEADLINES = soup.findAll("div", {"class" : "mr15 onecolumn-car"})
+
+	PICKUP_HEADLINES_LIST = []
+
+	for div in PICKUP_HEADLINES:
+		content = div.find('h3').find('a').contents[0]
+		PICKUP_HEADLINES_LIST.append(content)
+
+	print PICKUP_HEADLINES_LIST	
 
 	HEADLINES_LIST = []
 
 	for div in Headlines_div:
 		content = div.find('h1').find('a').contents[0]
 		HEADLINES_LIST.append(str(content))
-
-	print HEADLINES_LIST	
-
+		
+	
 elif Newspaper == '2':
 	newspaper_url = "http://indianexpress.com/"
 	
