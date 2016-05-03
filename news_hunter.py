@@ -7,6 +7,7 @@ Which one you want to read ?
 2.INDIAN EXPRESS
 3.DECCAN CHRONICLE
 4.THE TIMES OF INDIA
+5.HINDUSTANTIMES
 """)
 
 if Newspaper == '1':
@@ -43,6 +44,9 @@ elif Newspaper == '3':
 
 elif Newspaper == '4':
 	newspaper_url = "http://timesofindia.indiatimes.com/"
+
+elif Newspaper == '5':
+	newspaper_url = "http://http://www.hindustantimes.com/homepage/"
 
 else:
 	print "Make suer you've entered the right number"
