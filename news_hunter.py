@@ -10,13 +10,17 @@ Which one you want to read ?
 5.HINDUSTANTIMES
 """)
 
-if Newspaper == '1':
-	newspaper_url = "http://www.thehindu.com/"
-	requester = urllib2.Request(newspaper_url, headers={'User-Agent': "Magic Browser"})
+def url_crawler(url):
+	requester = urllib2.Request(url, headers={'User-Agent': "Magic Browser"})
 	connector = urllib2.urlopen(requester)
 	connector_reader = connector.read()
 	soup = BeautifulSoup(connector_reader, "lxml")
+	return soup	
 
+if Newspaper == '1':
+	newspaper_url = "http://www.thehindu.com/"
+	soup = url_crawler(newspaper_url)
+	
 	Headlines_div = soup.findAll("div", {"class" : "h-main-lead posRel"})
 	
 	PICKUP_HEADLINES = soup.findAll("div", {"class" : "mr15 onecolumn-car"})
@@ -26,8 +30,9 @@ if Newspaper == '1':
 	for div in PICKUP_HEADLINES:
 		content = div.find('h3').find('a').contents[0]
 		PICKUP_HEADLINES_LIST.append(content)
-
-	print PICKUP_HEADLINES_LIST	
+	
+	for headlines, number in enumerate(PICKUP_HEADLINES_LIST, 1):
+		print headlines, number
 
 	HEADLINES_LIST = []
 
@@ -35,27 +40,24 @@ if Newspaper == '1':
 		content = div.find('h1').find('a').contents[0]
 		HEADLINES_LIST.append(str(content))
 		
-	
 elif Newspaper == '2':
 	newspaper_url = "http://indianexpress.com/"
+	soup = url_crawler(newspaper_url)
 	
 elif Newspaper == '3':
 	newspaper_url = "http://www.deccanchronicle.com/"
+	soup = url_crawler(newspaper_url)
 
 elif Newspaper == '4':
 	newspaper_url = "http://timesofindia.indiatimes.com/"
+	soup = url_crawler(newspaper_url)
 
 elif Newspaper == '5':
 	newspaper_url = "http://http://www.hindustantimes.com/homepage/"
+	soup = url_crawler(newspaper_url)
 
 else:
 	print "Make suer you've entered the right number"
 
-
-# def url_opener(url):
-# 	requester = urllib2.Request(url, headers={'User-Agent': "Magic Browser"}
-# 	connector = urllib2.urlopen(requester)
-# 	connector_reader = connector.read()
-# 	return connector_reader
 
                        
