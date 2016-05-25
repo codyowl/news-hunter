@@ -28,7 +28,7 @@ if Newspaper == '1':
 	PICKUP_HEADLINES_LIST = []
 
 	for div in PICKUP_HEADLINES:
-		content = div.find('h3').find('a').contents[0]
+                content = div.find('h3').find('a').contents[0]
 		PICKUP_HEADLINES_LIST.append(content)
 	
 	for headlines, number in enumerate(PICKUP_HEADLINES_LIST, 1):
@@ -39,14 +39,39 @@ if Newspaper == '1':
 	for div in Headlines_div:
 		content = div.find('h1').find('a').contents[0]
 		HEADLINES_LIST.append(str(content))
+
+	print "MAIN HEADING :"
+	for headlines in HEADLINES_LIST:
+		print headlines
 		
 elif Newspaper == '2':
 	newspaper_url = "http://indianexpress.com/"
 	soup = url_crawler(newspaper_url)
 	
+	Indian_express_headlines = ("div", {"class": "left-part"})
+
+	INDIANEXPRESS_HEADLINES_LIST = []
+	
+	for div in Indian_express_headlines:
+		content = div.find('h3').find('a').contents[0]
+		INDIANEXPRESS_HEADLINES_LIST.append(str(content))
+
+	print INDIANEXPRESS_HEADLINES_LIST
+		
+
 elif Newspaper == '3':
 	newspaper_url = "http://www.deccanchronicle.com/"
 	soup = url_crawler(newspaper_url)
+
+	Deccan_chronicle_headlines = ("div", {"class" : "main-header"})
+
+	DECCAN_CHRONICLE_HEADLINES_LIST = []
+
+	for div in Deccan_chronicle_headlines:
+		content = div.find('h2').find('a').contents[0]
+		DECCAN_CHRONICLE_HEADLINES_LIST.append(str(content))
+
+	print DECCAN_CHRONICLE_HEADLINES_LIST
 
 elif Newspaper == '4':
 	newspaper_url = "http://timesofindia.indiatimes.com/"
@@ -61,3 +86,5 @@ else:
 
 
                        
+
+    
