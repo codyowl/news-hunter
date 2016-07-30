@@ -48,16 +48,53 @@ elif Newspaper == '2':
 	newspaper_url = "http://indianexpress.com/"
 	soup = url_crawler(newspaper_url)
 	
-	Indian_express_headlines = ("div", {"class": "left-part"})
+	Indian_express_headlines = soup.findAll("div", {"class": "other-article"})
+
+	Must_read = soup.findAll("div", {"class": "top-news"})
+
+	#Technology
+
+	Technology = soup.findAll("div", {"class": "common-structure"}, "div", {"data-vr-zone": "technology"})
+
+	print "from Technology"
+	for div in Technology:
+		business_right = div.find('div', attrs={'class': 'business-right'})
+		print business_right.text
+
+	
 
 	INDIANEXPRESS_HEADLINES_LIST = []
+
+	MUST_READ_LIST = []
+
+	TECHNOLOGY_LIST = []
 	
 	for div in Indian_express_headlines:
 		content = div.find('h3').find('a').contents[0]
 		INDIANEXPRESS_HEADLINES_LIST.append(str(content))
 
-	print INDIANEXPRESS_HEADLINES_LIST
-		
+	for div in Must_read:
+		uls = div.find('ul')
+		content = [lis.get_text() for lis in uls.findAll('li')]
+		for contents in content:
+			MUST_READ_LIST.append(contents)
+
+	#Technology
+	for div in Technology:
+		content = div.find('h5').find('a').contents[0]
+		TECHNOLOGY_LIST.append(str(content))
+
+	for headlines, number in enumerate(INDIANEXPRESS_HEADLINES_LIST, 1):
+		print headlines, number
+
+	#printing Must read
+	print "MUST READ:"
+	for headlines, number in enumerate(MUST_READ_LIST, 1):
+		print headlines, number		
+
+	print "TECHNOLOGY:"
+	for headlines, number in enumerate(TECHNOLOGY_LIST, 1):
+		print headlines, number
 
 elif Newspaper == '3':
 	newspaper_url = "http://www.deccanchronicle.com/"
