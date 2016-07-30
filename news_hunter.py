@@ -1,127 +1,124 @@
 import urllib2
 from bs4 import BeautifulSoup
 
-Newspaper = raw_input("""
-Which one you want to read ?
-1.THE HINDU
-2.INDIAN EXPRESS
-3.DECCAN CHRONICLE
-4.THE TIMES OF INDIA
-5.HINDUSTANTIMES
-""")
+while True:
+	Newspaper = raw_input("""
+	Which newspaper you want to read ?
+	1.THE HINDU
+	2.INDIAN EXPRESS
+	3.DECCAN CHRONICLE
+	4.THE TIMES OF INDIA
+	5.HINDUSTANTIMES
+	0.Exit
+	""")
 
-def url_crawler(url):
-	requester = urllib2.Request(url, headers={'User-Agent': "Magic Browser"})
-	connector = urllib2.urlopen(requester)
-	connector_reader = connector.read()
-	soup = BeautifulSoup(connector_reader, "lxml")
-	return soup	
+	def url_crawler(url):
+		requester = urllib2.Request(url, headers={'User-Agent': "Magic Browser"})
+		connector = urllib2.urlopen(requester)
+		connector_reader = connector.read()
+		soup = BeautifulSoup(connector_reader, "lxml")
+		return soup	
 
-if Newspaper == '1':
-	newspaper_url = "http://www.thehindu.com/"
-	soup = url_crawler(newspaper_url)
-	
-	Headlines_div = soup.findAll("div", {"class" : "h-main-lead posRel"})
-	
-	PICKUP_HEADLINES = soup.findAll("div", {"class" : "mr15 onecolumn-car"})
-
-	PICKUP_HEADLINES_LIST = []
-
-	for div in PICKUP_HEADLINES:
-                content = div.find('h3').find('a').contents[0]
-		PICKUP_HEADLINES_LIST.append(content)
-	
-	for headlines, number in enumerate(PICKUP_HEADLINES_LIST, 1):
-		print headlines, number
-
-	HEADLINES_LIST = []
-
-	for div in Headlines_div:
-		content = div.find('h1').find('a').contents[0]
-		HEADLINES_LIST.append(str(content))
-
-	print "MAIN HEADING :"
-	for headlines in HEADLINES_LIST:
-		print headlines
+	if Newspaper == '1':
+		newspaper_url = "http://www.thehindu.com/"
+		soup = url_crawler(newspaper_url)
 		
-elif Newspaper == '2':
-	newspaper_url = "http://indianexpress.com/"
-	soup = url_crawler(newspaper_url)
-	
-	Indian_express_headlines = soup.findAll("div", {"class": "other-article"})
+		Headlines_div = soup.findAll("div", {"class" : "h-main-lead posRel"})
+		
+		PICKUP_HEADLINES = soup.findAll("div", {"class" : "mr15 onecolumn-car"})
 
-	Must_read = soup.findAll("div", {"class": "top-news"})
+		PICKUP_HEADLINES_LIST = []
 
-	#Technology
+		for div in PICKUP_HEADLINES:
+	        	content = div.find('h3').find('a').contents[0]
+			PICKUP_HEADLINES_LIST.append(content)
+		
+		for headlines, number in enumerate(PICKUP_HEADLINES_LIST, 1):
+			print headlines, number
 
-	Technology = soup.findAll("div", {"class": "common-structure"}, "div", {"data-vr-zone": "technology"})
+		HEADLINES_LIST = []
 
-	print "from Technology"
-	for div in Technology:
-		business_right = div.find('div', attrs={'class': 'business-right'})
-		print business_right.text
+		for div in Headlines_div:
+			content = div.find('h1').find('a').contents[0]
+			HEADLINES_LIST.append(str(content))
 
-	
+		print "MAIN HEADING :"
+		for headlines in HEADLINES_LIST:
+			print headlines
+			
+	elif Newspaper == '2':
+		newspaper_url = "http://indianexpress.com/"
+		soup = url_crawler(newspaper_url)
+		
+		Indian_express_headlines = soup.findAll("div", {"class": "other-article"})
 
-	INDIANEXPRESS_HEADLINES_LIST = []
+		Must_read = soup.findAll("div", {"class": "top-news"})
 
-	MUST_READ_LIST = []
+		#Technology
 
-	TECHNOLOGY_LIST = []
-	
-	for div in Indian_express_headlines:
-		content = div.find('h3').find('a').contents[0]
-		INDIANEXPRESS_HEADLINES_LIST.append(str(content))
+		Technology = soup.findAll("div", {"class": "common-structure"}, "div", {"data-vr-zone": "technology"})
 
-	for div in Must_read:
-		uls = div.find('ul')
-		content = [lis.get_text() for lis in uls.findAll('li')]
-		for contents in content:
-			MUST_READ_LIST.append(contents)
+		
+		INDIANEXPRESS_HEADLINES_LIST = []
 
-	#Technology
-	for div in Technology:
-		content = div.find('h5').find('a').contents[0]
-		TECHNOLOGY_LIST.append(str(content))
+		MUST_READ_LIST = []
 
-	for headlines, number in enumerate(INDIANEXPRESS_HEADLINES_LIST, 1):
-		print headlines, number
+		TECHNOLOGY_LIST = []
+		
+		for div in Indian_express_headlines:
+			content = div.find('h3').find('a').contents[0]
+			INDIANEXPRESS_HEADLINES_LIST.append(str(content))
 
-	#printing Must read
-	print "MUST READ:"
-	for headlines, number in enumerate(MUST_READ_LIST, 1):
-		print headlines, number		
+		for div in Must_read:
+			uls = div.find('ul')
+			content = [lis.get_text() for lis in uls.findAll('li')]
+			for contents in content:
+				MUST_READ_LIST.append(contents)
 
-	print "TECHNOLOGY:"
-	for headlines, number in enumerate(TECHNOLOGY_LIST, 1):
-		print headlines, number
+		#Technology
+		for div in Technology:
+			news_div = soup.findAll("div", {"class": "news"})
+			for divs in news_div:
+				content = divs.find('h5').find('a').contents[0]
+				TECHNOLOGY_LIST.append(str(content))
 
-elif Newspaper == '3':
-	newspaper_url = "http://www.deccanchronicle.com/"
-	soup = url_crawler(newspaper_url)
+		for headlines, number in enumerate(INDIANEXPRESS_HEADLINES_LIST, 1):
+			print headlines, number
 
-	Deccan_chronicle_headlines = ("div", {"class" : "main-header"})
+		#printing Must read
+		print "MUST READ:"
+		for headlines, number in enumerate(MUST_READ_LIST, 1):
+			print headlines, number		
 
-	DECCAN_CHRONICLE_HEADLINES_LIST = []
+		print "TECHNOLOGY:"
+		for headlines, number in enumerate(TECHNOLOGY_LIST, 1):
+			print headlines, number
 
-	for div in Deccan_chronicle_headlines:
-		content = div.find('h2').find('a').contents[0]
-		DECCAN_CHRONICLE_HEADLINES_LIST.append(str(content))
+	elif Newspaper == '3':
+		newspaper_url = "http://www.deccanchronicle.com/"
+		soup = url_crawler(newspaper_url)
 
-	print DECCAN_CHRONICLE_HEADLINES_LIST
+		Deccan_chronicle_headlines = soup.findAll("div", {"class" : "main-header"})
 
-elif Newspaper == '4':
-	newspaper_url = "http://timesofindia.indiatimes.com/"
-	soup = url_crawler(newspaper_url)
+		Top_stories = soup.findAll("div", {"class" : "col-sm-5 tsSmall"})
 
-elif Newspaper == '5':
-	newspaper_url = "http://http://www.hindustantimes.com/homepage/"
-	soup = url_crawler(newspaper_url)
+		TOP_STORIES_LIST = []
 
-else:
-	print "Make suer you've entered the right number"
+				
+		
+
+	elif Newspaper == '4':
+		newspaper_url = "http://timesofindia.indiatimes.com/"
+		soup = url_crawler(newspaper_url)
+
+	elif Newspaper == '5':
+		newspaper_url = "http://http://www.hindustantimes.com/homepage/"
+		soup = url_crawler(newspaper_url)
+
+	else:
+		break
 
 
-                       
+	                       
 
-    
+	    
