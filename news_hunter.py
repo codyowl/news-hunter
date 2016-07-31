@@ -8,7 +8,6 @@ while True:
 	2.INDIAN EXPRESS
 	3.DECCAN CHRONICLE
 	4.THE TIMES OF INDIA
-	5.HINDUSTANTIMES
 	0.Exit
 	""")
 
@@ -67,7 +66,7 @@ while True:
 		
 		for div in Indian_express_headlines:
 			content = div.find('h3').find('a').contents[0]
-			INDIANEXPRESS_HEADLINES_LIST.append(str(content))
+			INDIANEXPRESS_HEADLINES_LIST.append(content)
 
 		for div in Must_read:
 			uls = div.find('ul')
@@ -100,21 +99,36 @@ while True:
 
 		Deccan_chronicle_headlines = soup.findAll("div", {"class" : "main-header"})
 
-		Top_stories = soup.findAll("div", {"class" : "col-sm-5 tsSmall"})
+		Top_stories = soup.findAll("h3", {"class" : "stry-hd-sml-led2"})
 
 		TOP_STORIES_LIST = []
 
-				
-		
+		for div in Top_stories:
+			TOP_STORIES_LIST.append(div.text)
+
+		for headlines, number in enumerate(TOP_STORIES_LIST, 1):
+			print headlines, number	   
+						
 
 	elif Newspaper == '4':
 		newspaper_url = "http://timesofindia.indiatimes.com/"
 		soup = url_crawler(newspaper_url)
 
-	elif Newspaper == '5':
-		newspaper_url = "http://http://www.hindustantimes.com/homepage/"
-		soup = url_crawler(newspaper_url)
+		Top_headlines = soup.findAll("div", {"class": "widget"})
 
+
+		TOP_HEADLINES_LIST = []
+
+		
+		for ultag in soup.find_all('ul', {'class': 'list9'}):
+			for litag in ultag.find_all('li'):
+				texts = litag.text
+				TOP_HEADLINES_LIST.append(texts)
+
+		for headlines, numbers in enumerate(TOP_HEADLINES_LIST, 1):
+			print headlines, numbers				
+    	
+		
 	else:
 		break
 
