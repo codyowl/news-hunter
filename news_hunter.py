@@ -20,26 +20,41 @@ while True:
 
 	if Newspaper == '1':
 		newspaper_url = "http://www.thehindu.com/"
+
+		sports_url = "http://www.thehindu.com/sport/"
+
+
 		soup = url_crawler(newspaper_url)
+
+		sports_soup = url_crawler(sports_url)
 		
 		Headlines_div = soup.findAll("div", {"class" : "h-main-lead posRel"})
 		
 		PICKUP_HEADLINES = soup.findAll("div", {"class" : "mr15 onecolumn-car"})
 
+		SPORTS_HEADLINES = sports_soup.findAll("div", {"class" : "section-columns"})
+
 		PICKUP_HEADLINES_LIST = []
+
+		SPORTS_HEADLINES_LIST = []
 
 		for div in PICKUP_HEADLINES:
 	        	content = div.find('h3').find('a').contents[0]
 			PICKUP_HEADLINES_LIST.append(content)
-		
+
 		for headlines, number in enumerate(PICKUP_HEADLINES_LIST, 1):
+			print headlines, number
+
+		#sports headlines list out:
+		print "SPORTS:"
+		for headlines, number in enumerate(SPORTS_HEADLINES_LIST, 1):
 			print headlines, number
 
 		HEADLINES_LIST = []
 
 		for div in Headlines_div:
 			content = div.find('h1').find('a').contents[0]
-			HEADLINES_LIST.append(str(content))
+			HEADLINES_LIST.append(content)
 
 		print "MAIN HEADING :"
 		for headlines in HEADLINES_LIST:
